@@ -1,27 +1,20 @@
 import styled from "styled-components";
 import { accounts } from "./mockdata";
+import PeopleList from "../../components/PeopleList";
+import { Button } from "../../components";
 
 const Admin = () => {
   console.log(accounts);
 
   return (
     <Main>
-      <button className="add_account_btn">Create new account</button>
-
-      
+      <Button bgColor="blue" text="Create new account" />
       Admin
+      <PeopleList />
     </Main>
   );
 };
 
-const Main = styled.div`
-  .add_account_btn {
-    background-color: blue;
-    color: #fff;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 16px;
-  }
-`;
+const Main = styled.div``;
 
 export default Admin;

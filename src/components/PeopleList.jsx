@@ -1,6 +1,7 @@
 // import styled from "styled-components";
 import { FaBeer } from "react-icons/fa";
 import userIcon from "../assets/icons/Icon-A.png";
+import Button from "./Button";
 
 const PeopleList = () => {
   const peopleData = [
@@ -15,6 +16,8 @@ const PeopleList = () => {
         <tr>
           <th>Name</th>
           <th>Age</th>
+          <th>Edit</th>
+          <th>Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -23,7 +26,7 @@ const PeopleList = () => {
         ))}
       </tbody>
 
-      <img src={userIcon} alt="icon" />
+      {/* <img src={userIcon} alt="icon" /> */}
     </table>
   );
 };
@@ -37,6 +40,12 @@ const People = (props) => {
         <FaBeer /> {people.name}
       </td>
       <td>{people.age}</td>
+      <td>
+        <Button text="Edit" bgColor="orange" />
+      </td>
+      <td>
+        <Button text="Delete" bgColor="red" />
+      </td>
     </tr>
   );
 };
