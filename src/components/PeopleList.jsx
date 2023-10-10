@@ -2,6 +2,7 @@
 import { FaBeer } from "react-icons/fa";
 import userIcon from "../assets/icons/Icon-A.png";
 import Button from "./Button";
+import { MdDeleteOutline } from "react-icons/md";
 
 const PeopleList = () => {
   const peopleData = [
@@ -44,7 +45,15 @@ const People = (props) => {
         <Button text="Edit" bgColor="orange" />
       </td>
       <td>
-        <Button text="Delete" bgColor="red" />
+        <Button
+          text={
+            <>
+              <MdDeleteOutline />
+              Delete
+            </>
+          }
+          bgColor="red"
+        />
       </td>
     </tr>
   );
