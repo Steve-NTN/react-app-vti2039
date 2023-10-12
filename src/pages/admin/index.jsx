@@ -1,19 +1,37 @@
 import styled from "styled-components";
-import { accounts } from "./mockdata";
 import PeopleList from "../../components/PeopleList";
 import { Button } from "../../components";
+// import { Fragment } from "react";
 
-const Admin = () => {
-  console.log(accounts);
+const Admin = (props) => {
+  // const { name } = props;
 
   return (
-    <Main>
-      <Button bgColor="blue" text="Create new account" />
-      Admin
-      <PeopleList />
-    </Main>
+    <>
+      <Main className="test">
+        <Button bgColor="blue" text="Create new account" />
+        Admin
+        <PeopleList />
+      </Main>
+    </>
   );
 };
+
+// class Admin extends Component {
+  
+//   render() {
+//     console.log(this.props)
+//     return (
+//       <>
+//         <Main className="test">
+//           <Button bgColor="blue" text="Create new account" />
+//           Admin
+//           <PeopleList />
+//         </Main>
+//       </>
+//     );
+//   }
+// }
 
 const Main = styled.div``;
 

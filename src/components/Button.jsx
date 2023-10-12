@@ -1,9 +1,11 @@
 import styled from "styled-components";
 
 const Button = (props) => {
-  const { bgColor = "blue", text = "Button" } = props;
+  const { bgColor = "blue", text = "Button", ...otherProps } = props;
   return (
-    <StyledButton style={{ backgroundColor: bgColor }}>{text}</StyledButton>
+    <StyledButton style={{ backgroundColor: bgColor }} {...otherProps}>
+      {text}
+    </StyledButton>
   );
 };
 
