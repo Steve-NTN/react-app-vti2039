@@ -14,6 +14,7 @@ export const StyledDialog = styled.div`
     padding: 32px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
   }
 
   .content_box {
