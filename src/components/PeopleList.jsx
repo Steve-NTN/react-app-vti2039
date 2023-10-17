@@ -1,11 +1,8 @@
-import Dialog from "./Dialog";
 import { useState } from "react";
 import People from "./People";
 import { DEPARTMENTS } from "../constants/account";
 
-const PeopleList = () => {
-  const [showDialog, setShowDialog] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+const PeopleList = ({onClickEdit, onClickDelete}) => {
   const [myInfos, setMyInfos] = useState({
     email: "",
     department: 0,
@@ -17,23 +14,6 @@ const PeopleList = () => {
     { name: "XYZ", age: 24 },
   ];
 
-  const onClickEdit = () => {
-    setShowDialog(true);
-    // showDialog = true
-  };
-
-  const onClickDelete = () => {
-    setShowDeleteDialog(true);
-    // showDialog = true
-  };
-
-  const onCloseDialog = () => {
-    setShowDialog(false);
-  };
-
-  const onCloseDeleteDialog = () => {
-    setShowDeleteDialog(false);
-  };
 
   const onClickGetInfos = () => {
     // console.log("first");
@@ -102,26 +82,6 @@ const PeopleList = () => {
           ))}
         </tbody>
       </table>
-
-      {showDialog && (
-        <Dialog
-          onClose={onCloseDialog}
-          title="Edit account"
-          // footer={<h1>Footer</h1>}
-        >
-          <h1>Edit</h1>
-        </Dialog>
-      )}
-
-      {showDeleteDialog && (
-        <Dialog
-          onClose={onCloseDeleteDialog}
-          title="Delete account"
-          // footer={<h1>Footer</h1>}
-        >
-          <h1>Delete</h1>
-        </Dialog>
-      )}
     </>
   );
 };

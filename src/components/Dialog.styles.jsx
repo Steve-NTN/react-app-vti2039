@@ -24,7 +24,7 @@ export const StyledDialog = styled.div`
     background-color: #fff;
     padding: 24px;
     max-width: 640px;
-    height: calc(100% - 48px);
+    height: fit-content;
     max-height: 640px;
     /* align-items: center; */
     justify-content: center;
@@ -41,6 +41,13 @@ export const StyledDialog = styled.div`
       span {
         cursor: pointer;
       }
+    }
+
+    .content_box__footer {
+      margin-top: 16px;
+      border-top: 1px solid #ddd;
+      padding-top: 16px;
+      text-align: right;
     }
   }
 `;
