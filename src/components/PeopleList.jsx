@@ -32,8 +32,7 @@ const PeopleList = ({onClickEdit, onClickDelete}) => {
   const onChangeCommonField = (updateData = {}) => {
     setMyInfos({ ...myInfos, ...updateData });
   };
-
-  console.log(myInfos);
+  
 
   return (
     <>

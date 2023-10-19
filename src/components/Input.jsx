@@ -1,18 +1,29 @@
 import styled from "styled-components";
 
-const Input = ({ label, placeholder = "", type = "text", options = [] }) => {
+const Input = ({
+  label,
+  placeholder = "",
+  type = "text",
+  options = [],
+  value = "",
+  onChange = () => {},
+}) => {
   return (
     <>
       <p className="input_label">{label}</p>
 
       {type === "text" && (
         <StyledInput>
-          <input placeholder={placeholder} />
+          <input value={value} placeholder={placeholder} onChange={onChange} />
         </StyledInput>
       )}
 
       {type === "select" && (
-        <StyledSelect placeholder={placeholder}>
+        <StyledSelect
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+        >
           {options.map((option, i) => {
             return (
               <option key={i} value={option?.value}>
