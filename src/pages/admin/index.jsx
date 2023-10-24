@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Accounts from "../../components/Accounts";
 import { Button, Dialog } from "../../components";
 import { AccountForm } from "./components";
-import { useState } from "react";
+import { createContext, useState } from "react";
 // import { Fragment } from "react";
 
 const initialAccount = {
@@ -13,6 +13,8 @@ const initialAccount = {
   position: 1,
   createAt: "2023-10-24",
 };
+
+export const AdminContext = createContext();
 
 const Admin = (props) => {
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -115,40 +117,49 @@ const Admin = (props) => {
     onCloseDialog();
   };
 
+  const adminContexts = {
+    name: "test",
+    accounts,
+    onClickEdit,
+    onClickDelete,
+    accounts,
+    setSelectedAccount,
+  };
+
   return (
-    <Main>
-      <Button
-        bgColor="blue"
-        text="Create new account"
-        onClick={onClickCreateAccount}
-      />
+    <AdminContext.Provider value={adminContexts}>
+      <Main>
+        <Button
+          bgColor="blue"
+          text="Create new account"
+          onClick={onClickCreateAccount}
+        />
 
-      <p>Account list</p>
+        <p>Account list</p>
 
-      {/* Danh sách tài khoản */}
-      <Accounts
-        {...{ onClickEdit, onClickDelete, accounts, setSelectedAccount }}
-      />
-      {showEditDialog && (
-        <Dialog
-          onClose={onCloseDialog}
-          title={(selectedAccount?.id ? "Edit" : "Create") + " account"}
-          showFooter
-          onConfirm={selectedAccount?.id ? onConfirmUpdate : onConfirmCreate}
-        >
-          <AccountForm {...{ selectedAccount, setSelectedAccount }} />
-        </Dialog>
-      )}
-      {showDeleteDialog && (
-        <Dialog
-          onClose={onCloseDeleteDialog}
-          title="Delete account"
-          onConfirm={onConfirmDelete}
-        >
-          <p>Delete account?</p>
-        </Dialog>
-      )}
-    </Main>
+        {/* Danh sách tài khoản */}
+        <Accounts />
+        {showEditDialog && (
+          <Dialog
+            onClose={onCloseDialog}
+            title={(selectedAccount?.id ? "Edit" : "Create") + " account"}
+            showFooter
+            onConfirm={selectedAccount?.id ? onConfirmUpdate : onConfirmCreate}
+          >
+            <AccountForm {...{ selectedAccount, setSelectedAccount }} />
+          </Dialog>
+        )}
+        {showDeleteDialog && (
+          <Dialog
+            onClose={onCloseDeleteDialog}
+            title="Delete account"
+            onConfirm={onConfirmDelete}
+          >
+            <p>Delete account?</p>
+          </Dialog>
+        )}
+      </Main>
+    </AdminContext.Provider>
   );
 };
 

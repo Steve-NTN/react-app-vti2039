@@ -1,9 +1,13 @@
 // import styled from "styled-components";
+import { useContext } from "react";
 import Button from "./Button";
 import { MdDeleteOutline } from "react-icons/md";
+import { AdminContext } from "../pages/admin";
 
 const Account = (props) => {
-  const { account, onClickEdit, onClickDelete, setSelectedAccount } = props;
+  const { account } = props;
+  const { onClickEdit, onClickDelete, setSelectedAccount } =
+    useContext(AdminContext);
 
   return (
     <tr>

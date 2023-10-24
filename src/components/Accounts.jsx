@@ -1,13 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Account from "./Account";
 import styled from "styled-components";
+import { AdminContext } from "../pages/admin";
 
-const Accounts = ({
-  onClickEdit,
-  onClickDelete,
-  accounts = [],
-  setSelectedAccount,
-}) => {
+const Accounts = () => {
+  const { accounts = [] } = useContext(AdminContext);
   const [myInfos, setMyInfos] = useState({
     email: "",
     department: 0,
@@ -50,13 +47,7 @@ const Accounts = ({
         <tbody>
           {accounts.map((account, i) => (
             // <People people={p} key={i} {...{ onClickEdit }} />
-            <Account
-              account={account}
-              key={i}
-              onClickEdit={onClickEdit}
-              onClickDelete={onClickDelete}
-              setSelectedAccount={setSelectedAccount}
-            />
+            <Account account={account} key={i} />
           ))}
         </tbody>
       </table>
