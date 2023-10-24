@@ -1,62 +1,48 @@
-import { useState } from "react";
-import { Button, Input } from "../../../components";
+import { Input } from "../../../components";
 import { DEPARTMENTS, POSITIONS } from "../../../constants/account";
 
-const AccountForm = () => {
-  const [account, setAccount] = useState({
-    email: "Hello",
-    username: "",
-    fullname: "",
-    department: 0,
-    position: 0,
-  });
-  const onSubmitForm = (e) => {
-    e?.preventDefault();
-    console.log("Clicked");
-  };
+const AccountForm = ({ selectedAccount, setSelectedAccount }) => {
 
   const onChange = (updateData = {}) => {
-    setAccount({ ...account, ...updateData });
+    setSelectedAccount({ ...selectedAccount, ...updateData });
   };
-
-  console.log(account);
-
   return (
-    <form onSubmit={onSubmitForm}>
+    <>
       <Input
         label="Email"
         placeholder="Input email"
-        value={account.email}
+        value={selectedAccount.email}
         onChange={(e) => onChange({ email: e?.target?.value })}
       />
       <Input
         label="Username"
         placeholder="Input Username"
-        value={account.username}
-        onChange={onChange}
+        value={selectedAccount.username}
+        onChange={(e) => onChange({ username: e?.target?.value })}
       />
       <Input
         label="Fullname"
         placeholder="Input Fullname"
-        value={account.fullname}
+        value={selectedAccount.fullname}
+        onChange={(e) => onChange({ fullname: e?.target?.value })}
       />
       <Input
         label="Department"
         placeholder="Input Department"
         type="select"
         options={DEPARTMENTS}
-        value={account.department}
+        value={selectedAccount.department}
+        onChange={(e) => onChange({ department: e?.target?.value })}
       />
       <Input
         label="Position"
         placeholder="Input position"
         type="select"
         options={POSITIONS}
-        value={account.position}
+        value={selectedAccount.position}
+        onChange={(e) => onChange({ position: e?.target?.value })}
       />
-
-      <Button type="submit" />
-    </form>
+    </>
   );
 };
 
