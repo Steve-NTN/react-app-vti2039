@@ -2,7 +2,8 @@ import styled from "styled-components";
 import Accounts from "../../components/Accounts";
 import { Button, Dialog } from "../../components";
 import { AccountForm } from "./components";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import axios from "axios";
 // import { Fragment } from "react";
 
 const initialAccount = {
@@ -20,44 +21,8 @@ const Admin = (props) => {
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState(initialAccount);
-  const [accounts, setAccounts] = useState([
-    {
-      id: 1,
-      email: "a@gmail.com",
-      username: "a",
-      fullname: "Nguyen Van A",
-      department: 1,
-      position: 1,
-      createAt: "2023-10-24",
-    },
-    {
-      id: 2,
-      email: "b@gmail.com",
-      username: "b",
-      fullname: "Nguyen Van B",
-      department: 1,
-      position: 1,
-      createAt: "2023-10-24",
-    },
-    {
-      id: 3,
-      email: "C@gmail.com",
-      username: "C",
-      fullname: "Nguyen Van C",
-      department: 1,
-      position: 1,
-      createAt: "2023-10-24",
-    },
-    {
-      id: 4,
-      email: "a@gmail.com",
-      username: "a",
-      fullname: "Nguyen Van A",
-      department: 1,
-      position: 1,
-      createAt: "2023-10-24",
-    },
-  ]);
+  const [accounts, setAccounts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const onClickEdit = () => {
     setShowEditDialog(true);
@@ -79,15 +44,12 @@ const Admin = (props) => {
 
   const onConfirmDelete = () => {
     // console.log();
-    let newAccounts = [];
-    for (var i = 0; i < accounts.length; i++) {
-      let currentAccount = accounts[i];
-      if (currentAccount.id !== selectedAccount?.id) {
-        newAccounts.push(currentAccount);
-      }
-    }
-    setAccounts(newAccounts);
-    onCloseDeleteDialog();
+    axios
+      .delete(`http://localhost:8080/accounts/${selectedAccount?.accountId}`)
+      .then((res) => {
+        onCloseDeleteDialog();
+      })
+      .catch((err) => console.log(err));
   };
 
   const onClickCreateAccount = () => {
@@ -117,6 +79,23 @@ const Admin = (props) => {
     onCloseDialog();
   };
 
+  // Lấy data tài khoản từ api
+  useEffect(() => {
+    setLoading(true);
+    axios("http://localhost:8080/accounts?page=1&limit=10")
+      .then((res) => {
+        setLoading(false);
+        setAccounts(res.data.data || []);
+      })
+      .catch((err) => {
+        setAccounts([]);
+        setLoading(false);
+        console.log(err);
+      });
+  }, []);
+
+  console.log(accounts);
+
   const adminContexts = {
     name: "test",
     accounts,
@@ -139,6 +118,12 @@ const Admin = (props) => {
 
         {/* Danh sách tài khoản */}
         <Accounts />
+
+        {!loading && accounts.length < 1 && <p>Trống</p>}
+
+        {/* Loading */}
+        {loading && <p>Loading...</p>}
+
         {showEditDialog && (
           <Dialog
             onClose={onCloseDialog}

@@ -1,33 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Account from "./Account";
 import styled from "styled-components";
 import { AdminContext } from "../pages/admin";
 
 const Accounts = () => {
   const { accounts = [] } = useContext(AdminContext);
-  const [myInfos, setMyInfos] = useState({
-    email: "",
-    department: 0,
-  });
-  const onClickGetInfos = () => {
-    // console.log("first");
-    // const name = document.getElementById("name");
-    // const age = document.getElementById("age");
-    // console.log(name?.value, age?.value);
-
-    console.log(myInfos);
-  };
-
-  const onChangeField = () => {
-    console.log("first");
-  };
-
-  // Hàm update chung
-  const onChangeCommonField = (updateData = {}) => {
-    setMyInfos({ ...myInfos, ...updateData });
-  };
-
-  console.log(accounts);
 
   return (
     <StyledDiv>
@@ -40,6 +17,7 @@ const Accounts = () => {
             <th>Full name</th>
             <th>Department</th>
             <th>Position</th>
+            <th>Create at</th>
             <th>Edit</th>
             <th>Delele</th>
           </tr>

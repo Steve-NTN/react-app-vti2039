@@ -23,8 +23,8 @@ const AccountForm = ({ selectedAccount, setSelectedAccount }) => {
       <Input
         label="Fullname"
         placeholder="Input Fullname"
-        value={selectedAccount.fullname}
-        onChange={(e) => onChange({ fullname: e?.target?.value })}
+        value={selectedAccount.fullName}
+        onChange={(e) => onChange({ fullName: e?.target?.value })}
       />
       <Input
         label="Department"

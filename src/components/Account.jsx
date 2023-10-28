@@ -3,6 +3,7 @@ import { useContext } from "react";
 import Button from "./Button";
 import { MdDeleteOutline } from "react-icons/md";
 import { AdminContext } from "../pages/admin";
+import { formatDatetime } from "../utils/stringHelpers";
 
 const Account = (props) => {
   const { account } = props;
@@ -11,12 +12,13 @@ const Account = (props) => {
 
   return (
     <tr>
-      <td>{account.id}</td>
+      <td>{account.accountId}</td>
       <td>{account.email}</td>
       <td>{account.username}</td>
-      <td>{account.fullname}</td>
-      <td>{account.department}</td>
-      <td>{account.position}</td>
+      <td>{account.fullName}</td>
+      <td>{account.departmentName}</td>
+      <td>{account.positionName}</td>
+      <td>{formatDatetime(account.createDate)}</td>
       <td>
         <Button
           text="Edit"
