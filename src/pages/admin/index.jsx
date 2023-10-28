@@ -4,14 +4,15 @@ import { Button, Dialog } from "../../components";
 import { AccountForm } from "./components";
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { API_DOMAIN } from "../../constants/schema";
 // import { Fragment } from "react";
 
 const initialAccount = {
   email: "",
   username: "",
-  fullname: "",
-  department: 1,
-  position: 1,
+  fullName: "",
+  departmentId: 1,
+  positionId: 1,
   createAt: "2023-10-24",
 };
 
@@ -23,6 +24,7 @@ const Admin = (props) => {
   const [selectedAccount, setSelectedAccount] = useState(initialAccount);
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [reloadAccounts, setReloadAccounts] = useState(false);
 
   const onClickEdit = () => {
     setShowEditDialog(true);
@@ -42,11 +44,17 @@ const Admin = (props) => {
     setShowDeleteDialog(false);
   };
 
+  const onReloadAccounts = () => {
+    setReloadAccounts(!reloadAccounts);
+  };
+
   const onConfirmDelete = () => {
     // console.log();
     axios
-      .delete(`http://localhost:8080/accounts/${selectedAccount?.accountId}`)
+      .delete(`${API_DOMAIN}/accounts/${selectedAccount?.accountId}`)
       .then((res) => {
+        // window.location.reload();
+        onReloadAccounts();
         onCloseDeleteDialog();
       })
       .catch((err) => console.log(err));
@@ -58,11 +66,13 @@ const Admin = (props) => {
   };
 
   const onConfirmCreate = () => {
-    setAccounts([
-      ...accounts,
-      { ...selectedAccount, id: Math.floor(Math.random() * 1000) },
-    ]);
-    onCloseDialog();
+    axios
+      .post(`${API_DOMAIN}/accounts`, selectedAccount)
+      .then((res) => {
+        onCloseDialog();
+        onReloadAccounts();
+      })
+      .catch((err) => console.log(err));
   };
 
   const onConfirmUpdate = () => {
@@ -82,7 +92,7 @@ const Admin = (props) => {
   // Lấy data tài khoản từ api
   useEffect(() => {
     setLoading(true);
-    axios("http://localhost:8080/accounts?page=1&limit=10")
+    axios(`${API_DOMAIN}/accounts?page=1&limit=10`)
       .then((res) => {
         setLoading(false);
         setAccounts(res.data.data || []);
@@ -92,16 +102,12 @@ const Admin = (props) => {
         setLoading(false);
         console.log(err);
       });
-  }, []);
-
-  console.log(accounts);
+  }, [reloadAccounts]);
 
   const adminContexts = {
-    name: "test",
     accounts,
     onClickEdit,
     onClickDelete,
-    accounts,
     setSelectedAccount,
   };
 
@@ -127,9 +133,13 @@ const Admin = (props) => {
         {showEditDialog && (
           <Dialog
             onClose={onCloseDialog}
-            title={(selectedAccount?.id ? "Edit" : "Create") + " account"}
+            title={
+              (selectedAccount?.accountId ? "Edit" : "Create") + " account"
+            }
             showFooter
-            onConfirm={selectedAccount?.id ? onConfirmUpdate : onConfirmCreate}
+            onConfirm={
+              selectedAccount?.accountId ? onConfirmUpdate : onConfirmCreate
+            }
           >
             <AccountForm {...{ selectedAccount, setSelectedAccount }} />
           </Dialog>

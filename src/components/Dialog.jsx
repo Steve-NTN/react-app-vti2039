@@ -26,8 +26,8 @@ const Dialog = (props) => {
 
           {showFooter && (
             <div className="content_box__footer">
-              <Button bgColor="orange" text="Confirm" onClick={onConfirm} />
               <Button bgColor="red" text="Close" onClick={onClose} />
+              <Button bgColor="orange" text="Confirm" onClick={onConfirm} />
               {footer}
             </div>
           )}
