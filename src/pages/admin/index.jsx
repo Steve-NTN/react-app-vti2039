@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import Accounts from "../../components/Accounts";
 import { Button, Dialog } from "../../components";
-import { AccountForm } from "./components";
+import { AccountForm, Pagination } from "./components";
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { API_DOMAIN } from "../../constants/schema";
+import { getAllAccounts } from "../../services/account";
+import WithLoading from "../../hocs/withLoading";
 // import { Fragment } from "react";
 
 const initialAccount = {
@@ -25,6 +27,11 @@ const Admin = (props) => {
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [reloadAccounts, setReloadAccounts] = useState(false);
+  const [metaData, setMetadata] = useState({
+    page: 1,
+    limit: 2,
+  });
+  const [total, setTotal] = useState(0);
 
   const onClickEdit = () => {
     setShowEditDialog(true);
@@ -92,23 +99,47 @@ const Admin = (props) => {
   // Lấy data tài khoản từ api
   useEffect(() => {
     setLoading(true);
-    axios(`${API_DOMAIN}/accounts?page=1&limit=10`)
+    getAllAccounts(metaData.page, metaData.limit)
       .then((res) => {
         setLoading(false);
         setAccounts(res.data.data || []);
+        setTotal(res.data.metadata?.total);
       })
       .catch((err) => {
         setAccounts([]);
         setLoading(false);
         console.log(err);
       });
-  }, [reloadAccounts]);
+  }, [reloadAccounts, metaData]);
 
   const adminContexts = {
     accounts,
     onClickEdit,
     onClickDelete,
     setSelectedAccount,
+  };
+
+  const onClickNext = () => {
+    const pageQuantity = Math.ceil(total / metaData.limit);
+    const nextPageIdx = metaData.page + 1;
+
+    if (nextPageIdx <= pageQuantity) {
+      setMetadata({
+        ...metaData,
+        page: nextPageIdx,
+      });
+    }
+  };
+
+  const onClickPrevios = () => {
+    const nextPageIdx = metaData.page - 1;
+
+    if (nextPageIdx > 0) {
+      setMetadata({
+        ...metaData,
+        page: nextPageIdx,
+      });
+    }
   };
 
   return (
@@ -123,12 +154,12 @@ const Admin = (props) => {
         <p>Account list</p>
 
         {/* Danh sách tài khoản */}
-        <Accounts />
+        <WithLoading isLoading={loading} WrappedComponent={Accounts} />
 
         {!loading && accounts.length < 1 && <p>Trống</p>}
 
-        {/* Loading */}
-        {loading && <p>Loading...</p>}
+        {/* Phân trang  */}
+        <Pagination {...{ total, onClickNext, onClickPrevios, metaData }} />
 
         {showEditDialog && (
           <Dialog
