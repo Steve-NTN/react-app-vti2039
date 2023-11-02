@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import Account from "./Account";
 import styled from "styled-components";
-import { AdminContext } from "../pages/admin";
+import { AdminContext } from "../pages/adminAccount";
 
 const Accounts = () => {
   const { accounts = [] } = useContext(AdminContext);

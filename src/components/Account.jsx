@@ -2,7 +2,7 @@
 import { useContext } from "react";
 import Button from "./Button";
 import { MdDeleteOutline } from "react-icons/md";
-import { AdminContext } from "../pages/admin";
+import { AdminContext } from "../pages/adminAccount";
 import { formatDatetime } from "../utils/stringHelpers";
 
 const Account = (props) => {
@@ -25,7 +25,7 @@ const Account = (props) => {
           bgColor="orange"
           onClick={() => {
             setSelectedAccount(account);
-            onClickEdit();
+            onClickEdit(account.accountId);
           }}
         />
       </td>
