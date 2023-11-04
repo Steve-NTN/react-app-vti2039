@@ -1,47 +1,35 @@
-import {
-  IconButton,
-  Stack,
-  TextField,
-  Typography,
-  styled,
-} from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const Header = () => {
   const navigate = useNavigate();
+
   const onClickUser = () => {
     navigate("/login");
   };
-  return (
-    <StyledHeader
-      direction="row"
-      alignItems="center"
-      justifyContent="space-between"
-      p={2}
-    >
-      <Stack direction="row" spacing={2} alignItems="center">
-        <Typography className="logo_text">NTN</Typography>
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-      </Stack>
 
-      <Stack spacing={2} direction="row">
+  return (
+    <StyledHeader>
+      <h1>Logo</h1>
+      <div className="rightbar">
         <Link to="/">Home</Link>
         <Link to="/admin">Admin</Link>
-      </Stack>
-
-      <IconButton onClick={onClickUser}>
-        <AccountCircleIcon />
-      </IconButton>
+        <Link to="/login">Login</Link>
+        <Link to="/signup">Signup</Link>
+      </div>
     </StyledHeader>
   );
 };
 
-const StyledHeader = styled(Stack)({
-  backgroundColor: "orange",
-  "& .logo_text": {
-    fontWeight: 600,
-  },
-});
+const StyledHeader = styled.div`
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  &,
+  .rightbar {
+    gap: 16px;
+    display: flex;
+  }
+`;
 
 export default Header;

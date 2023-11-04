@@ -3,7 +3,14 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Admin, Home, Login, NotFoundPage, ProductDetail } from "./pages";
+import {
+  Admin,
+  AdminAccountDetail,
+  Home,
+  Login,
+  NotFoundPage,
+  Signup,
+} from "./pages";
 
 const router = createBrowserRouter([
   {
@@ -15,12 +22,16 @@ const router = createBrowserRouter([
     element: <Admin />,
   },
   {
-    path: "/product/:productId",
-    element: <ProductDetail />,
-  },
-  {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <Signup />,
+  },
+  {
+    path: "/account/:id",
+    element: <AdminAccountDetail />,
   },
   {
     path: "*",

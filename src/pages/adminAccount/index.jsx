@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import Accounts from "../../components/Accounts";
-import { Button, Dialog } from "../../components";
+import { Button, Dialog, Search } from "../../components";
 import { AccountForm, Pagination } from "./components";
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { API_DOMAIN } from "../../constants/schema";
 import { getAllAccounts } from "../../services/account";
 import WithLoading from "../../hocs/withLoading";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 // import { Fragment } from "react";
 
 const initialAccount = {
@@ -24,6 +24,7 @@ export const AdminContext = createContext();
 
 const AdminAccount = (props) => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState(initialAccount);
@@ -31,8 +32,9 @@ const AdminAccount = (props) => {
   const [loading, setLoading] = useState(false);
   const [reloadAccounts, setReloadAccounts] = useState(false);
   const [metaData, setMetadata] = useState({
-    page: 1,
-    limit: 2,
+    page: searchParams.get("page") || 1,
+    limit: 10,
+    search: searchParams.get("search") || "",
   });
   const [total, setTotal] = useState(0);
 
@@ -100,7 +102,7 @@ const AdminAccount = (props) => {
   // Lấy data tài khoản từ api
   useEffect(() => {
     setLoading(true);
-    getAllAccounts(metaData.page, metaData.limit)
+    getAllAccounts(metaData.page, metaData.limit, metaData.search)
       .then((res) => {
         setLoading(false);
         setAccounts(res.data.data || []);
@@ -112,6 +114,10 @@ const AdminAccount = (props) => {
         console.log(err);
       });
   }, [reloadAccounts, metaData]);
+
+  useEffect(() => {
+    navigate({ search: `page=${metaData.page}&search=${metaData.search}` });
+  }, [metaData]);
 
   const adminContexts = {
     accounts,
@@ -143,11 +149,17 @@ const AdminAccount = (props) => {
     }
   };
 
-  const handleChange = () => {};
+  const onChangeSearch = (e) => {
+    let newSearch = e?.target?.value;
+
+    setMetadata({ ...metaData, search: newSearch });
+  };
 
   return (
     <AdminContext.Provider value={adminContexts}>
       <Main>
+        <Search value={metaData.search} onChange={onChangeSearch} />
+
         <Button
           bgColor="blue"
           text="Create new account"
@@ -193,6 +205,7 @@ const AdminAccount = (props) => {
 };
 
 const Main = styled.div`
+  margin-top: 32px;
   td {
     text-align: center;
   }
