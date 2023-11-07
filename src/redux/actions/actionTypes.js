@@ -1,0 +1,1 @@
+export const DECREASE_COUNTER = "DECREASE_COUNTER";

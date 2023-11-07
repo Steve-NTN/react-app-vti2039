@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { Header } from "../../components";
+import { Header, Products } from "../../components";
 
 const Home = () => {
   return (
     <StyledHome>
       <Header />
+      <Products />
     </StyledHome>
   );
 };

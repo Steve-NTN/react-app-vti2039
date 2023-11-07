@@ -1,59 +1,58 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { onDecreaseCounter } from "../../redux/actions/counterActions";
 
-const Test = (props) => {
-  const { color = "#000" } = props;
-  let [counter, setCounter] = useState(0);
-  let [show, setShow] = useState(false);
+const Counter = () => {
+  const counter = useSelector((state) => state?.counter?.counter);
+  const dispatch = useDispatch();
 
-  const onChangeCounter = (e) => {
-    setCounter(parseInt(e.target.value));
+  const onDecrease = () => {
+    dispatch(onDecreaseCounter());
   };
 
-  const onClickAdd = () => {
-    setCounter(Math.min(counter + 1, 5));
+  const onIncrease = () => {
+    dispatch({ type: "counter/increase" });
   };
-
-  const onClickMinus = () => {
-    setCounter(Math.max(counter - 1, 0));
-  };
-
-  console.log("constructor");
-
-  useEffect(() => {
-    let myInterval = setInterval(() => {
-      console.log("interval loop");
-    }, 1000);
-
-    return () => {
-      console.log("unmount");
-      window.clearInterval(myInterval);
-    };
-  }, []);
 
   return (
-    <Main>
-      {console.log("render")}
-      <button onClick={onClickMinus}>-</button>
-      <input value={counter} type="number" onChange={onChangeCounter} />
-      <button onClick={onClickAdd}>+</button>
+    <div>
+      <h1>Counter</h1>
 
-      <button onClick={() => setShow(!show)}>Click show</button>
-    </Main>
+      <div style={{ display: "flex", gap: 24 }}>
+        <button onClick={onDecrease}>Decrease</button>
+        <p>{counter}</p>
+        <button onClick={onIncrease}>Increase</button>
+      </div>
+
+      <br />
+      <CounterChild />
+    </div>
   );
 };
 
-const Main = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  button {
-    padding: 24px;
-  }
-  .right_btn {
-  }
-  .left_btn {
-  }
-`;
+const CounterChild = () => {
+  return (
+    <div>
+      <CounterSubChild />
+    </div>
+  );
+};
 
-export default Test;
+const CounterSubChild = () => {
+  const counter = useSelector((state) => state?.counter?.counter);
+  const dispatch = useDispatch();
+
+  const onDecrease = (value) => {
+    dispatch({ type: "counter/decreaseWithNumber", payload: value });
+  };
+
+  return (
+    <div>
+      {counter}
+      <br />
+      <button onClick={() => onDecrease(5)}>Decrease with 5</button>
+      <button onClick={() => onDecrease(10)}>Decrease with 10</button>
+    </div>
+  );
+};
+
+export default Counter;
