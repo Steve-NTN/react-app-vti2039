@@ -54,6 +54,7 @@ const StyledHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
+  background-color: orange;
   &,
   .rightbar {
     gap: 16px;
