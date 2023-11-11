@@ -3,27 +3,20 @@ import { Header } from "../../components";
 import { login } from "../../services/account";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import { object, string } from "yup";
+
+let loginSchema = object({
+  username: string().required().min(5),
+  password: string()
+    .required()
+    .min(6)
+    .matches(`^[a-zA-Z0-9_.-]*$`, {
+      message: "Just number and alphabeth only",
+    }),
+});
 
 const Login = () => {
   const navigate = useNavigate();
-
-  const validate = (values) => {
-    const errors = {};
-
-    if (!values.username?.trim()) {
-      errors.username = "Required";
-    } else {
-      if (values.username?.length <= 3) {
-        errors.username = "Min length is 3 characters";
-      }
-    }
-
-    if (!values.password?.trim()) {
-      errors.password = "Required password";
-    }
-
-    return errors;
-  };
 
   const onSubmitLogin = (values) => {
     login(values)
@@ -42,7 +35,7 @@ const Login = () => {
       username: "",
       password: "",
     },
-    validate,
+    validationSchema: loginSchema,
     onSubmit: onSubmitLogin,
   });
 
