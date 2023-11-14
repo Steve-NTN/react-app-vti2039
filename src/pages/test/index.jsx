@@ -1,18 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
-import { onDecreaseCounter } from "../../redux/actions/counterActions";
+import { memo, useState } from "react";
 
 const Counter = () => {
-  const counter = useSelector((state) => state?.counter?.counter);
-  const dispatch = useDispatch();
+  const [counter, setCounter] = useState(0);
 
   const onDecrease = () => {
-    dispatch(onDecreaseCounter());
+    setCounter(counter - 1);
   };
 
   const onIncrease = () => {
-    dispatch({ type: "counter/increase" });
+    setCounter(counter + 1);
   };
-
   return (
     <div>
       <h1>Counter</h1>
@@ -29,28 +26,24 @@ const Counter = () => {
   );
 };
 
-const CounterChild = () => {
+const CounterChild = memo(() => {
+  console.log("render 1");
   return (
     <div>
+      {console.log("render 2")}
       <CounterSubChild />
+      Hello world
     </div>
   );
-};
+});
 
 const CounterSubChild = () => {
-  const counter = useSelector((state) => state?.counter?.counter);
-  const dispatch = useDispatch();
-
-  const onDecrease = (value) => {
-    dispatch({ type: "counter/decreaseWithNumber", payload: value });
-  };
-
   return (
     <div>
-      {counter}
+      {/* {counter} */}
       <br />
-      <button onClick={() => onDecrease(5)}>Decrease with 5</button>
-      <button onClick={() => onDecrease(10)}>Decrease with 10</button>
+      {/* <button onClick={() => onDecrease(5)}>Decrease with 5</button>
+      <button onClick={() => onDecrease(10)}>Decrease with 10</button> */}
     </div>
   );
 };

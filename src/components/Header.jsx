@@ -1,19 +1,25 @@
 import { Menu } from "@mui/icons-material";
-import { Drawer, IconButton, useMediaQuery } from "@mui/material";
+import { Button, Drawer, IconButton, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useUser } from "../providers/user-provider";
 
 const Header = () => {
   const navigate = useNavigate();
   const [showDrawer, setShowDrawer] = useState(false);
   const isMobileView = useMediaQuery("(max-width:480px)");
+  const { user, setUser } = useUser();
 
   const onClickUser = () => {
     navigate("/login");
   };
 
   console.log(isMobileView);
+
+  const onClick = () => {
+    setUser();
+  };
 
   return (
     <StyledHeader>
@@ -23,8 +29,14 @@ const Header = () => {
           <>
             <Link to="/">Home</Link>
             <Link to="/admin">Admin</Link>
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Signup</Link>
+            {!user ? (
+              <>
+                <Link to="/login">Login</Link>
+                <Link to="/signup">Signup</Link>
+              </>
+            ) : (
+              <Button onClick={onClick}>Logout</Button>
+            )}
           </>
         )}
         {isMobileView && (

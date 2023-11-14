@@ -4,33 +4,36 @@ import { login } from "../../services/account";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { number, object, string } from "yup";
+import { useUser } from "../../providers/user-provider";
+import useCounter from "../../hooks/useCounter";
 
 let loginSchema = object({
   username: string().required().min(5),
-  password: string().required().min(6).matches(`^[a-zA-Z0-9_.-]*$`, {
-    message: "Just number and alphabeth only",
-  }),
-  quantity: number().required().max(5).positive(),
+  password: string().required(),
+  // quantity: number().required().max(5).positive(),
 });
 
-const validate = values => {
-  const errors = {};
-  if (!values.firstName) {
-    errors.firstName = 'Required';
-  } else if (values.firstName.length > 15) {
-    errors.firstName = 'Must be 15 characters or less';
-  }
-  return errors;
-};
+// const validate = (values) => {
+//   const errors = {};
+//   if (!values.firstName) {
+//     errors.firstName = "Required";
+//   } else if (values.firstName.length > 15) {
+//     errors.firstName = "Must be 15 characters or less";
+//   }
+//   return errors;
+// };
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setUser } = useUser();
+  const {counter, onDecrease, onIncrease} = useCounter();
 
   const onSubmitLogin = (values) => {
     login(values)
       .then((res) => {
         console.log(res);
         navigate("/");
+        setUser({ name: "NTN" });
       })
       .catch((err) => {
         console.log(err);
@@ -88,6 +91,10 @@ const Login = () => {
             <p style={{ color: "red" }}>{formik.errors.root}</p>
           )}
 
+          <button onClick={onDecrease}>-</button>
+          <p>{counter}</p>
+          <button onClick={onIncrease}>+</button>
+
           <button type="submit">Login</button>
         </Stack>
       </form>
@@ -95,10 +102,12 @@ const Login = () => {
   );
 };
 
-const Main = styled(Stack)({
+const Main = styled(Stack)(({ theme }) => ({
   "& .error": {
     color: "red",
   },
-});
+
+  [theme.breakpoints.down("sm")]: {},
+}));
 
 export default Login;

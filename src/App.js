@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       {/* <Admin /> */}
-      <Test />
+      {/* <Test /> */}
 
       {/* <Test color={textColor ? "red" : "black"} onClick={onClickText} /> */}
       {/* <PeopleList /> */}
