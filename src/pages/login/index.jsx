@@ -13,6 +13,16 @@ let loginSchema = object({
   quantity: number().required().max(5).positive(),
 });
 
+const validate = values => {
+  const errors = {};
+  if (!values.firstName) {
+    errors.firstName = 'Required';
+  } else if (values.firstName.length > 15) {
+    errors.firstName = 'Must be 15 characters or less';
+  }
+  return errors;
+};
+
 const Login = () => {
   const navigate = useNavigate();
 
@@ -33,6 +43,7 @@ const Login = () => {
       username: "",
       password: "",
     },
+    // validate: validate,
     validationSchema: loginSchema,
     onSubmit: onSubmitLogin,
   });
