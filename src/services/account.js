@@ -11,4 +11,9 @@ const login = (data) => {
   return axios.post(`${API_DOMAIN}/accounts/auth`, data);
 };
 
-export { getAllAccounts, login };
+const signup = (data) => {
+  return axios.post(`${API_DOMAIN}/accounts`, data);
+};
+
+
+export { getAllAccounts, login, signup };

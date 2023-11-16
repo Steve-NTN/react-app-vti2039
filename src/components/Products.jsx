@@ -1,9 +1,10 @@
-import { Grid, styled } from "@mui/material";
+import { Grid } from "@mui/material";
 import Product from "./Product";
-import { FaShippingFast, FaPlaceOfWorship } from "react-icons/fa";
-import johnSmitth from "../assets/imgs/test.png";
+// import { FaShippingFast, FaPlaceOfWorship } from "react-icons/fa";
+// import johnSmitth from "../assets/imgs/test.png";
 
 const Products = () => {
+  // const isMobile = useMediaQuery()
   return (
     <Grid container spacing={2}>
       {products.map((product, i) => (
@@ -12,21 +13,21 @@ const Products = () => {
         </Grid>
       ))}
 
-      <FaShippingFast className="feature_icon" />
+      {/* <FaShippingFast className="feature_icon" />
 
-      <FaPlaceOfWorship className="feature_icon" />
+      <FaPlaceOfWorship className="feature_icon" /> */}
 
-      <StyledTest></StyledTest>
+      {/* <StyledTest></StyledTest> */}
     </Grid>
   );
 };
 
-const StyledTest = styled("div")({
-  width: "100%",
-  height: 300,
-  background: `orange url('${johnSmitth}') no-repeat center center`,
-  backgroundSize: "contain"
-});
+// const StyledTest = styled("div")({
+//   width: "100%",
+//   height: 300,
+//   background: `orange url('${johnSmitth}') no-repeat center center`,
+//   backgroundSize: "contain"
+// });
 
 export default Products;
 

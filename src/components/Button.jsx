@@ -9,10 +9,14 @@ const Button = (props) => {
   );
 };
 
+
+
 const StyledButton = styled.button`
   color: #fff;
   border-radius: 8px;
   padding: 12px;
   font-size: 16px;
 `;
+
+
 export default Button;

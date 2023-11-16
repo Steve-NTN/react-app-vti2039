@@ -1,5 +1,12 @@
 import { Menu } from "@mui/icons-material";
-import { Button, Drawer, IconButton, useMediaQuery } from "@mui/material";
+import {
+  Button,
+  Drawer,
+  IconButton,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -24,7 +31,12 @@ const Header = () => {
   return (
     <StyledHeader>
       <h1>Logo</h1>
-      <div className="rightbar">
+      <Stack
+        spacing={2}
+        direction="row"
+        alignItems="center"
+        className="rightbar"
+      >
         {!isMobileView && (
           <>
             <Link to="/">Home</Link>
@@ -35,7 +47,9 @@ const Header = () => {
                 <Link to="/signup">Signup</Link>
               </>
             ) : (
-              <Button onClick={onClick}>Logout</Button>
+              <Button variant="text" className="logout_btn" onClick={onClick}>
+                Logout
+              </Button>
             )}
           </>
         )}
@@ -44,7 +58,7 @@ const Header = () => {
             <Menu />
           </IconButton>
         )}
-      </div>
+      </Stack>
 
       <Drawer
         anchor="right"
@@ -67,10 +81,12 @@ const StyledHeader = styled.div`
   justify-content: space-between;
   padding: 0 16px;
   background-color: orange;
-  &,
+  display: flex;
+  gap: 16px;
   .rightbar {
-    gap: 16px;
-    display: flex;
+  }
+  .logout_btn {
+    text-transform: initial;
   }
 `;
 
