@@ -1,13 +1,15 @@
-import { Box, Stack, Typography, styled } from "@mui/material";
+import { Box, Rating, Stack, Typography, styled } from "@mui/material";
+import { formatImg } from "../utils/imgHelpers";
 
 const Product = ({ product }) => {
   return (
     <StyledProduct>
-      <img src={product.image} />
-      <Typography>{product?.name}</Typography>
+      <img src={formatImg(product.productImage)} />
+      <Rating name="read-only" value={product.ratingStar || 0} readOnly />
+      <Typography className="product_name">{product?.productName}</Typography>
 
       <Stack direction="row">
-        <Typography>{product?.price}</Typography>
+        <Typography>{product?.productPrice}</Typography>
         <Typography className="label">HOT</Typography>
       </Stack>
     </StyledProduct>
@@ -23,11 +25,17 @@ const StyledProduct = styled(Box)(({ theme }) => ({
   "& .label": {
     marginLeft: 32,
   },
+  ".product_name": {
+    // color: 'red'
+  },
 
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down(900)]: {
     "& .label": {
       marginLeft: 16,
-      color: "red",
+      // color: "red",
+    },
+    ".product_name": {
+      // color: 'green'
     },
   },
 }));

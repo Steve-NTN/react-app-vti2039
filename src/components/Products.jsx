@@ -1,24 +1,73 @@
-import { Grid } from "@mui/material";
+import { Box, Grid, Pagination, Stack } from "@mui/material";
 import Product from "./Product";
+import { useEffect, useState } from "react";
+import { apiGetProducts } from "../services/product";
+import Loading from "./Loading";
+import { useHome } from "../providers/home-provider";
 // import { FaShippingFast, FaPlaceOfWorship } from "react-icons/fa";
 // import johnSmitth from "../assets/imgs/test.png";
 
 const Products = () => {
-  // const isMobile = useMediaQuery()
+  // const isMobile = useMediaQuery();
+  const { selectedCategory } = useHome();
+  const [products, setProducts] = useState([]);
+  const [metaData, setMetaData] = useState({
+    limit: 2,
+    page: 1,
+    search: "",
+  });
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      apiGetProducts(
+        metaData.page,
+        metaData.limit,
+        metaData.search,
+        selectedCategory
+      )
+        .then((res) => {
+          let data = res?.data;
+          setProducts(data?.data);
+          setTotal(data?.metadata?.total || 0);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    }, 500);
+  }, [metaData, selectedCategory]);
+
+  const onChangePagination = (value) => {
+    setMetaData({ ...metaData, page: value });
+  };
+
   return (
-    <Grid container spacing={2}>
-      {products.map((product, i) => (
-        <Grid item xs={12} sm={6} md={3}>
-          <Product product={product} />
+    <Stack spacing={2}>
+      <Box>
+        <Grid container spacing={2}>
+          {products.map((product, i) => (
+            <Grid item xs={12} sm={6} md={3}>
+              <Product product={product} />
+            </Grid>
+          ))}
         </Grid>
-      ))}
+      </Box>
 
-      {/* <FaShippingFast className="feature_icon" />
+      <Stack justifyContent="center">
+        {loading && <Loading sx={{ m: "0 auto" }} />}
+      </Stack>
 
-      <FaPlaceOfWorship className="feature_icon" /> */}
-
-      {/* <StyledTest></StyledTest> */}
-    </Grid>
+      <Stack justifyContent="center">
+        <Pagination
+          count={Math.ceil(total / metaData.limit)}
+          onChange={(e, value) => onChangePagination(value)}
+        />
+      </Stack>
+    </Stack>
   );
 };
 
@@ -30,25 +79,3 @@ const Products = () => {
 // });
 
 export default Products;
-
-const products = [
-  {
-    name: "Sản phẩm A",
-    price: 25000,
-    image:
-      "https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-  },
-  {
-    name: "Sản phẩm A",
-    price: 25000,
-    image:
-      "https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-  },
-
-  {
-    name: "Sản phẩm A",
-    price: 25000,
-    image:
-      "https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-  },
-];

@@ -2,27 +2,18 @@ import { Menu } from "@mui/icons-material";
 import {
   Button,
   Drawer,
+  Hidden,
   IconButton,
   Stack,
-  Typography,
-  useMediaQuery,
 } from "@mui/material";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useUser } from "../providers/user-provider";
 
 const Header = () => {
-  const navigate = useNavigate();
   const [showDrawer, setShowDrawer] = useState(false);
-  const isMobileView = useMediaQuery("(max-width:480px)");
   const { user, setUser } = useUser();
-
-  const onClickUser = () => {
-    navigate("/login");
-  };
-
-  console.log(isMobileView);
 
   const onClick = () => {
     setUser();
@@ -37,27 +28,26 @@ const Header = () => {
         alignItems="center"
         className="rightbar"
       >
-        {!isMobileView && (
-          <>
-            <Link to="/">Home</Link>
-            <Link to="/admin">Admin</Link>
-            {!user ? (
-              <>
-                <Link to="/login">Login</Link>
-                <Link to="/signup">Signup</Link>
-              </>
-            ) : (
-              <Button variant="text" className="logout_btn" onClick={onClick}>
-                Logout
-              </Button>
-            )}
-          </>
-        )}
-        {isMobileView && (
+        <Hidden mdDown>
+          <Link to="/">Home</Link>
+          <Link to="/admin">Admin</Link>
+          {!user ? (
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Signup</Link>
+            </>
+          ) : (
+            <Button variant="text" className="logout_btn" onClick={onClick}>
+              Logout
+            </Button>
+          )}
+        </Hidden>
+
+        <Hidden mdUp>
           <IconButton onClick={() => setShowDrawer(true)}>
             <Menu />
           </IconButton>
-        )}
+        </Hidden>
       </Stack>
 
       <Drawer
