@@ -1,11 +1,5 @@
 import { Menu } from "@mui/icons-material";
-import {
-  Button,
-  Drawer,
-  Hidden,
-  IconButton,
-  Stack,
-} from "@mui/material";
+import { Button, Drawer, Hidden, IconButton, Stack } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -30,7 +24,7 @@ const Header = () => {
       >
         <Hidden mdDown>
           <Link to="/">Home</Link>
-          <Link to="/admin">Admin</Link>
+          {user?.isAdmin === 1 && <Link to="/admin">Admin</Link>}
           {!user ? (
             <>
               <Link to="/login">Login</Link>
@@ -72,7 +66,10 @@ const StyledHeader = styled.div`
   padding: 0 16px;
   background-color: orange;
   display: flex;
+  position: sticky;
+  top: 0;
   gap: 16px;
+  z-index: 1;
   .rightbar {
   }
   .logout_btn {

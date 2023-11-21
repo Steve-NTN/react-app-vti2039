@@ -1,10 +1,20 @@
-import { Container, Stack, TextField, Typography, styled } from "@mui/material";
+import {
+  Container,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+  Typography,
+  styled,
+} from "@mui/material";
 import { AppButton, Header } from "../../components";
 import { login } from "../../services/account";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { object, string } from "yup";
 import { useUser } from "../../providers/user-provider";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useState } from "react";
 
 let loginSchema = object({
   username: string().required(),
@@ -15,13 +25,13 @@ let loginSchema = object({
 const Login = () => {
   const navigate = useNavigate();
   const { setUser, text } = useUser();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmitLogin = (values) => {
     login(values)
       .then((res) => {
-        console.log(res);
         navigate("/");
-        setUser({ name: "NTN" });
+        setUser(res.data?.data);
       })
       .catch((err) => {
         console.log(err);
@@ -37,7 +47,12 @@ const Login = () => {
     // validate: validate,
     validationSchema: loginSchema,
     onSubmit: onSubmitLogin,
+    initialTouched: {
+      username: true,
+    },
   });
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
     <Main>
@@ -64,12 +79,24 @@ const Login = () => {
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
+              type={showPassword ? "text" : "password"}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleClickShowPassword}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
               error={!!formik.errors.password}
               helperText={formik.errors.password}
             />
 
             {formik.errors.root && (
-              <Typography className="error_text">{formik.errors.root}</Typography>
+              <Typography className="error_text">
+                {formik.errors.root}
+              </Typography>
             )}
 
             <AppButton type="submit">Login</AppButton>

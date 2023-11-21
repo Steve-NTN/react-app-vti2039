@@ -9,3 +9,8 @@ export const POSITIONS = [
   { value: 1, label: "Developer" },
   { value: 2, label: "Manager" },
 ];
+
+export const ROLES = [
+  { value: 0, label: "Customer" },
+  { value: 1, label: "Admin" },
+];

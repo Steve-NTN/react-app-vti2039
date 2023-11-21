@@ -13,4 +13,19 @@ const apiGetProductCategories = () => {
   return http.get(`product-categories`);
 };
 
-export { apiGetProducts, apiGetProductCategories };
+const apiUpdateProduct = (id, data) => {
+  return http.put(`products/${id}`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
+
+const apiDeleteProduct = (id) => {
+  return http.delete(`products/${id}`);
+};
+
+export {
+  apiGetProducts,
+  apiGetProductCategories,
+  apiUpdateProduct,
+  apiDeleteProduct,
+};

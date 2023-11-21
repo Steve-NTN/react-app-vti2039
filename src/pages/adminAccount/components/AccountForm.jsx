@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { Input } from "../../../components";
-import { DEPARTMENTS, POSITIONS } from "../../../constants/account";
+import { DEPARTMENTS, POSITIONS, ROLES } from "../../../constants/account";
 import axios from "axios";
 import { API_DOMAIN } from "../../../constants/schema";
+import { useUser } from "../../../providers/user-provider";
 
 const AccountForm = ({ selectedAccount, setSelectedAccount }) => {
   const [departments, setDepartments] = useState([]);
   const onChange = (updateData = {}) => {
     setSelectedAccount({ ...selectedAccount, ...updateData });
   };
+  const { user } = useUser();
 
   useEffect(() => {
     axios(`${API_DOMAIN}/departments`)
@@ -59,6 +61,17 @@ const AccountForm = ({ selectedAccount, setSelectedAccount }) => {
         value={selectedAccount.positionId}
         onChange={(e) => onChange({ positionId: e?.target?.value })}
       />
+
+      {user?.isAdmin === 1 && (
+        <Input
+          label="Is admin"
+          placeholder="Input is admin"
+          type="select"
+          options={ROLES}
+          value={selectedAccount.isAdmin}
+          onChange={(e) => onChange({ isAdmin: e?.target?.value })}
+        />
+      )}
 
       {!selectedAccount?.accountId && (
         <Input

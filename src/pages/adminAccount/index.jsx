@@ -18,6 +18,7 @@ const initialAccount = {
   departmentId: 1,
   positionId: 1,
   createAt: "2023-10-24",
+  isAccount: 0
 };
 
 export const AdminContext = createContext();
