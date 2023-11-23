@@ -1,7 +1,16 @@
-import { Box, Rating, Stack, Typography, styled } from "@mui/material";
+import { Box, Button, Rating, Stack, Typography, styled } from "@mui/material";
 import { formatImg } from "../utils/imgHelpers";
+import { FaCartPlus } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { onAddItem } from "../redux/actions/cartActions";
 
 const Product = ({ product }) => {
+  const dispath = useDispatch();
+
+  const onClickProduct = () => {
+    dispath(onAddItem(product));
+  };
+
   return (
     <StyledProduct>
       <img src={formatImg(product.productImage)} />
@@ -12,6 +21,9 @@ const Product = ({ product }) => {
         <Typography>{product?.productPrice}</Typography>
         <Typography className="label">HOT</Typography>
       </Stack>
+      <StyledAddToCartButton endIcon={<FaCartPlus />} onClick={onClickProduct}>
+        Add to cart
+      </StyledAddToCartButton>
     </StyledProduct>
   );
 };
@@ -39,3 +51,5 @@ const StyledProduct = styled(Box)(({ theme }) => ({
     },
   },
 }));
+
+const StyledAddToCartButton = styled(Button)({});

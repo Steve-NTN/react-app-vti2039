@@ -21,17 +21,16 @@ const Admin = (props) => {
 
   console.log(value);
 
-  // const TabContent = () => {
-  //   console.log(value);
-  //   switch (value) {
-  //     case 0:
-  //       return AdminAccount;
-  //     case 1:
-  //       return AdminProduct;
-  //     default:
-  //       return null;
-  //   }
-  // };
+  const TabContent = () => {
+    switch (value) {
+      case 0:
+        return <AdminAccount />;
+      case 1:
+        return <AdminProduct />;
+      default:
+        return null; 
+    }
+  };
 
   return (
     <>
@@ -46,9 +45,9 @@ const Admin = (props) => {
         <Tab label="Product management" />
       </Tabs>
 
-      {/* <TabContent /> */}
-      {value === 0 && <AdminAccount />}
-      {value === 1 && <AdminProduct />}
+      <TabContent />
+      {/* {value === 0 && <AdminAccount />}
+      {value === 1 && <AdminProduct />} */}
     </>
   );
 };

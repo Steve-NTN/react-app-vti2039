@@ -1,17 +1,40 @@
 import { Menu } from "@mui/icons-material";
-import { Button, Drawer, Hidden, IconButton, Stack } from "@mui/material";
+import {
+  Badge,
+  Button,
+  Drawer,
+  Hidden,
+  IconButton,
+  Popover,
+  Stack,
+} from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useUser } from "../providers/user-provider";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { useSelector } from "react-redux";
+import Cart from "./Cart";
 
 const Header = () => {
   const [showDrawer, setShowDrawer] = useState(false);
+  const [showCart, setShowCart] = useState(false);
+  const [anchorElCart, setAnchorElCart] = useState();
   const { user, setUser } = useUser();
+  const cart = useSelector((state) => state?.cart?.cart) || [];
 
   const onClick = () => {
     setUser();
   };
+
+  const onClickCart = (e) => {
+    setShowCart(true);
+    setAnchorElCart(e?.currentTarget)
+  };
+
+  const onCloseCart = () => {
+    setShowCart(false)
+  }
 
   return (
     <StyledHeader>
@@ -31,9 +54,17 @@ const Header = () => {
               <Link to="/signup">Signup</Link>
             </>
           ) : (
-            <Button variant="text" className="logout_btn" onClick={onClick}>
-              Logout
-            </Button>
+            <>
+              <IconButton onClick={onClickCart}>
+                <StyledBadge badgeContent={cart?.length} color="secondary">
+                  <MdOutlineShoppingCart />
+                </StyledBadge>
+              </IconButton>
+
+              <Button variant="text" className="logout_btn" onClick={onClick}>
+                Logout
+              </Button>
+            </>
           )}
         </Hidden>
 
@@ -56,9 +87,31 @@ const Header = () => {
           <Link to="/signup">Signup</Link>
         </>
       </Drawer>
+
+      <Popover
+        open={showCart}
+        anchorEl={anchorElCart}
+        onClose={onCloseCart}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <Cart />
+      </Popover>
     </StyledHeader>
   );
 };
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 13,
+    backgroundColor: "#fff",
+    padding: "0 4px",
+    color: "var(--app-color)",
+  },
+}));
 
 const StyledHeader = styled.div`
   align-items: center;
