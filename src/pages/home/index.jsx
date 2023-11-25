@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Footer, Header, Products } from "../../components";
 import { Container } from "@mui/material";
-import { Categories } from "./components";
+import { Categories, TestResponsive } from "./components";
 import { HomeProvider } from "../../providers/home-provider";
 
 const Home = () => {
@@ -12,6 +12,8 @@ const Home = () => {
         <Container>
           <Categories />
           <Products />
+
+          <TestResponsive />
         </Container>
       </StyledHome>
     </HomeProvider>

@@ -10,12 +10,9 @@ import {
   Login,
   NotFoundPage,
   Signup,
-  Test,
 } from "./pages";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import Counter from "./pages/test";
-import TestContext from "./pages/test/Context";
 import { UserProvider } from "./providers/user-provider";
 
 const router = createBrowserRouter([

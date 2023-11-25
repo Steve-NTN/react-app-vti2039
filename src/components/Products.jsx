@@ -12,7 +12,7 @@ const Products = () => {
   const { selectedCategory } = useHome();
   const [products, setProducts] = useState([]);
   const [metaData, setMetaData] = useState({
-    limit: 2,
+    limit: 10,
     page: 1,
     search: "",
   });
