@@ -10,8 +10,8 @@ const Home = () => {
       <StyledHome>
         <Header />
         <Container>
-          <Categories />
-          <Products />
+          {/* <Categories /> */}
+          {/* <Products /> */}
 
           <TestResponsive />
         </Container>

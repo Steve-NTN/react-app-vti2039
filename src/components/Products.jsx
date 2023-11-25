@@ -7,9 +7,9 @@ import { useHome } from "../providers/home-provider";
 // import { FaShippingFast, FaPlaceOfWorship } from "react-icons/fa";
 // import johnSmitth from "../assets/imgs/test.png";
 
-const Products = () => {
+const Products = ({ selectedCategory }) => {
   // const isMobile = useMediaQuery();
-  const { selectedCategory } = useHome();
+  // const { selectedCategory } = useHome();
   const [products, setProducts] = useState([]);
   const [metaData, setMetaData] = useState({
     limit: 10,
