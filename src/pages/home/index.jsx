@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Footer, Header, Products } from "../../components";
+import { Footer, Header, HomeBanner, Products } from "../../components";
 import { Container } from "@mui/material";
 import { Categories, TestResponsive } from "./components";
 import { HomeProvider } from "../../providers/home-provider";
@@ -10,6 +10,7 @@ const Home = () => {
       <StyledHome>
         <Header />
         <Container>
+          <HomeBanner />
           {/* <Categories /> */}
           {/* <Products /> */}
 
