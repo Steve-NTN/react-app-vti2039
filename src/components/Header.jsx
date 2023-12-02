@@ -15,6 +15,7 @@ import { useUser } from "../providers/user-provider";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { useSelector } from "react-redux";
 import Cart from "./Cart";
+import { logout } from "../services/account";
 
 const Header = () => {
   const [showDrawer, setShowDrawer] = useState(false);
@@ -23,18 +24,22 @@ const Header = () => {
   const { user, setUser } = useUser();
   const cart = useSelector((state) => state?.cart?.cart) || [];
 
-  const onClick = () => {
-    setUser();
+  const onClickLogout = () => {
+    logout()
+      .then((res) => {
+        setUser();
+      })
+      .catch((err) => console.log(err));
   };
 
   const onClickCart = (e) => {
     setShowCart(true);
-    setAnchorElCart(e?.currentTarget)
+    setAnchorElCart(e?.currentTarget);
   };
 
   const onCloseCart = () => {
-    setShowCart(false)
-  }
+    setShowCart(false);
+  };
 
   return (
     <StyledHeader>
@@ -61,7 +66,11 @@ const Header = () => {
                 </StyledBadge>
               </IconButton>
 
-              <Button variant="text" className="logout_btn" onClick={onClick}>
+              <Button
+                variant="text"
+                className="logout_btn"
+                onClick={onClickLogout}
+              >
                 Logout
               </Button>
             </>
@@ -121,8 +130,10 @@ const StyledHeader = styled.div`
   display: flex;
   position: sticky;
   top: 0;
+  /* position: fixed;
+  width: 100%; */
   gap: 16px;
-  z-index: 1;
+  z-index: 100;
   .rightbar {
   }
   .logout_btn {

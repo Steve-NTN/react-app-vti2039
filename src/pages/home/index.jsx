@@ -1,22 +1,23 @@
 import styled from "styled-components";
-import { Footer, Header, HomeBanner, Products } from "../../components";
+import { HomeBanner, Layout } from "../../components";
 import { Container } from "@mui/material";
-import { Categories, TestResponsive } from "./components";
+import { TestResponsive } from "./components";
 import { HomeProvider } from "../../providers/home-provider";
 
 const Home = () => {
   return (
     <HomeProvider>
-      <StyledHome>
-        <Header />
-        <Container>
-          <HomeBanner />
-          {/* <Categories /> */}
-          {/* <Products /> */}
+      <Layout>
+        <StyledHome>
+          <Container>
+            <HomeBanner />
+            {/* <Categories /> */}
+            {/* <Products /> */}
 
-          <TestResponsive />
-        </Container>
-      </StyledHome>
+            <TestResponsive />
+          </Container>
+        </StyledHome>
+      </Layout>
     </HomeProvider>
   );
 };

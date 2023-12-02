@@ -6,5 +6,6 @@ export { default as Search } from "./Search";
 export { default as Products } from "./Products";
 export { default as Footer } from "./Footer";
 export { default as Loading } from "./Loading";
+export { default as Layout } from "./Layout";
 export * from "./AppButton";
 export * from "./Banner";

@@ -14,6 +14,7 @@ import {
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { UserProvider } from "./providers/user-provider";
+import withAuth from "./hocs/withAuth";
 
 const router = createBrowserRouter([
   {
@@ -43,13 +44,14 @@ const router = createBrowserRouter([
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+const App = withAuth(() => <RouterProvider router={router} />);
 root.render(
   // <React.StrictMode>
-    <Provider store={store}>
-      <UserProvider>
-        <RouterProvider router={router} />
-      </UserProvider>
-    </Provider>
+  <Provider store={store}>
+    <UserProvider>
+      <App />
+    </UserProvider>
+  </Provider>
   // </React.StrictMode>
 );
 

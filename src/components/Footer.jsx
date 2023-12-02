@@ -17,6 +17,7 @@ const Footer = () => {
 
   return (
     <Container>
+      <h1>This is footer</h1>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
           <h1>Column 1</h1>
